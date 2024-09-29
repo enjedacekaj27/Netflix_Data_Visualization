@@ -18,6 +18,9 @@ Pandas, NumPy
 Matplotlib, Seaborn
 NLTK, scikit-learn, WordCloud
 
+Contribution
+Contributions are welcome! Feel free to submit issues or pull requests to improve the project or add new features.
+
 Acknowledgements
 Data source: Kaggle Netflix Titles Dataset.
 
