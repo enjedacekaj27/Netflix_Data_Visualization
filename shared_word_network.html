@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ff9999", "font": {"color": "black"}, "id": "Dramas", "label": "Dramas", "shape": "dot", "size": 20, "title": "Dramas"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "young", "label": "young", "shape": "dot", "size": 15, "title": "young"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "life", "label": "life", "shape": "dot", "size": 15, "title": "life"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "woman", "label": "woman", "shape": "dot", "size": 15, "title": "woman"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "British", "label": "British", "shape": "dot", "size": 20, "title": "British"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "series", "label": "series", "shape": "dot", "size": 15, "title": "series"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "best", "label": "best", "shape": "dot", "size": 15, "title": "best"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Reality", "label": "Reality", "shape": "dot", "size": 20, "title": "Reality"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "talented", "label": "talented", "shape": "dot", "size": 15, "title": "talented"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "batch", "label": "batch", "shape": "dot", "size": 15, "title": "batch"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Comedies", "label": "Comedies", "shape": "dot", "size": 20, "title": "Comedies"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "friend", "label": "friend", "shape": "dot", "size": 15, "title": "friend"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "new", "label": "new", "shape": "dot", "size": 15, "title": "new"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Romantics", "label": "Romantics", "shape": "dot", "size": 20, "title": "Romantics"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "love", "label": "love", "shape": "dot", "size": 15, "title": "love"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Horror", "label": "Horror", "shape": "dot", "size": 20, "title": "Horror"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "home", "label": "home", "shape": "dot", "size": 15, "title": "home"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Fantasy", "label": "Fantasy", "shape": "dot", "size": 20, "title": "Fantasy"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "alien", "label": "alien", "shape": "dot", "size": 15, "title": "alien"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "earth", "label": "earth", "shape": "dot", "size": 15, "title": "earth"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Thrillers", "label": "Thrillers", "shape": "dot", "size": 20, "title": "Thrillers"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "man", "label": "man", "shape": "dot", "size": 15, "title": "man"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Action", "label": "Action", "shape": "dot", "size": 20, "title": "Action"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Classic", "label": "Classic", "shape": "dot", "size": 20, "title": "Classic"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "war", "label": "war", "shape": "dot", "size": 15, "title": "war"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Anime", "label": "Anime", "shape": "dot", "size": 20, "title": "Anime"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "ninja", "label": "ninja", "shape": "dot", "size": 15, "title": "ninja"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "naruto", "label": "naruto", "shape": "dot", "size": 15, "title": "naruto"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "save", "label": "save", "shape": "dot", "size": 15, "title": "save"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Family", "label": "Family", "shape": "dot", "size": 20, "title": "Family"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Documentaries", "label": "Documentaries", "shape": "dot", "size": 20, "title": "Documentaries"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "documentary", "label": "documentary", "shape": "dot", "size": 15, "title": "documentary"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "world", "label": "world", "shape": "dot", "size": 15, "title": "world"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Musical", "label": "Musical", "shape": "dot", "size": 20, "title": "Musical"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "music", "label": "music", "shape": "dot", "size": 15, "title": "music"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Faith", "label": "Faith", "shape": "dot", "size": 20, "title": "Faith"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "story", "label": "story", "shape": "dot", "size": 15, "title": "story"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "family", "label": "family", "shape": "dot", "size": 15, "title": "family"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "LGBTQ", "label": "LGBTQ", "shape": "dot", "size": 20, "title": "LGBTQ"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "gay", "label": "gay", "shape": "dot", "size": 15, "title": "gay"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Crime", "label": "Crime", "shape": "dot", "size": 20, "title": "Crime"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "murder", "label": "murder", "shape": "dot", "size": 15, "title": "murder"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Spanish", "label": "Spanish", "shape": "dot", "size": 20, "title": "Spanish"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "inspired", "label": "inspired", "shape": "dot", "size": 15, "title": "inspired"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "spain", "label": "spain", "shape": "dot", "size": 15, "title": "spain"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Stand-Up Comedy", "label": "Stand-Up Comedy", "shape": "dot", "size": 20, "title": "Stand-Up Comedy"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "special", "label": "special", "shape": "dot", "size": 15, "title": "special"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "comedian", "label": "comedian", "shape": "dot", "size": 15, "title": "comedian"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "comic", "label": "comic", "shape": "dot", "size": 15, "title": "comic"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "TV Shows", "label": "TV Shows", "shape": "dot", "size": 20, "title": "TV Shows"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "collection", "label": "collection", "shape": "dot", "size": 15, "title": "collection"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "group", "label": "group", "shape": "dot", "size": 15, "title": "group"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "year", "label": "year", "shape": "dot", "size": 15, "title": "year"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Movies", "label": "Movies", "shape": "dot", "size": 20, "title": "Movies"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "christmas", "label": "christmas", "shape": "dot", "size": 15, "title": "christmas"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "town", "label": "town", "shape": "dot", "size": 15, "title": "town"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Sports", "label": "Sports", "shape": "dot", "size": 20, "title": "Sports"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "team", "label": "team", "shape": "dot", "size": 15, "title": "team"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "player", "label": "player", "shape": "dot", "size": 15, "title": "player"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Mystery", "label": "Mystery", "shape": "dot", "size": 20, "title": "Mystery"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "mystery", "label": "mystery", "shape": "dot", "size": 15, "title": "mystery"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "romance", "label": "romance", "shape": "dot", "size": 15, "title": "romance"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Docuseries", "label": "Docuseries", "shape": "dot", "size": 20, "title": "Docuseries"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "revealing", "label": "revealing", "shape": "dot", "size": 15, "title": "revealing"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Teen", "label": "Teen", "shape": "dot", "size": 20, "title": "Teen"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "school", "label": "school", "shape": "dot", "size": 15, "title": "school"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "student", "label": "student", "shape": "dot", "size": 15, "title": "student"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "high", "label": "high", "shape": "dot", "size": 15, "title": "high"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Korean", "label": "Korean", "shape": "dot", "size": 20, "title": "Korean"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "college", "label": "college", "shape": "dot", "size": 15, "title": "college"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "korea", "label": "korea", "shape": "dot", "size": 15, "title": "korea"}, {"color": "#ff9999", "font": {"color": "black"}, "id": "Science", "label": "Science", "shape": "dot", "size": 20, "title": "Science"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "fact", "label": "fact", "shape": "dot", "size": 15, "title": "fact"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "meet", "label": "meet", "shape": "dot", "size": 15, "title": "meet"}, {"color": "#99ccff", "font": {"color": "black"}, "id": "fiction", "label": "fiction", "shape": "dot", "size": 15, "title": "fiction"}]);
+                  edges = new vis.DataSet([{"from": "Dramas", "to": "young"}, {"from": "Dramas", "to": "life"}, {"from": "Dramas", "to": "woman"}, {"from": "young", "to": "Horror"}, {"from": "young", "to": "Fantasy"}, {"from": "young", "to": "Thrillers"}, {"from": "young", "to": "Action"}, {"from": "life", "to": "British"}, {"from": "life", "to": "Comedies"}, {"from": "life", "to": "Romantics"}, {"from": "life", "to": "Action"}, {"from": "life", "to": "Classic"}, {"from": "life", "to": "Documentaries"}, {"from": "life", "to": "Faith"}, {"from": "life", "to": "LGBTQ"}, {"from": "life", "to": "Crime"}, {"from": "woman", "to": "Romantics"}, {"from": "woman", "to": "Thrillers"}, {"from": "British", "to": "series"}, {"from": "British", "to": "best"}, {"from": "best", "to": "Reality"}, {"from": "Reality", "to": "talented"}, {"from": "Reality", "to": "batch"}, {"from": "Comedies", "to": "friend"}, {"from": "Comedies", "to": "new"}, {"from": "friend", "to": "Family"}, {"from": "friend", "to": "LGBTQ"}, {"from": "new", "to": "Horror"}, {"from": "new", "to": "Classic"}, {"from": "new", "to": "Family"}, {"from": "new", "to": "Movies"}, {"from": "Romantics", "to": "love"}, {"from": "love", "to": "Musical"}, {"from": "Horror", "to": "home"}, {"from": "Fantasy", "to": "alien"}, {"from": "Fantasy", "to": "earth"}, {"from": "Thrillers", "to": "man"}, {"from": "man", "to": "Action"}, {"from": "Classic", "to": "war"}, {"from": "Anime", "to": "ninja"}, {"from": "Anime", "to": "naruto"}, {"from": "Anime", "to": "save"}, {"from": "save", "to": "Family"}, {"from": "Documentaries", "to": "documentary"}, {"from": "Documentaries", "to": "world"}, {"from": "documentary", "to": "Musical"}, {"from": "documentary", "to": "Sports"}, {"from": "documentary", "to": "Docuseries"}, {"from": "world", "to": "Crime"}, {"from": "world", "to": "Spanish"}, {"from": "Musical", "to": "music"}, {"from": "Faith", "to": "story"}, {"from": "Faith", "to": "family"}, {"from": "story", "to": "Docuseries"}, {"from": "family", "to": "Mystery"}, {"from": "LGBTQ", "to": "gay"}, {"from": "Crime", "to": "murder"}, {"from": "Spanish", "to": "inspired"}, {"from": "Spanish", "to": "spain"}, {"from": "Stand-Up Comedy", "to": "special"}, {"from": "Stand-Up Comedy", "to": "comedian"}, {"from": "Stand-Up Comedy", "to": "comic"}, {"from": "TV Shows", "to": "collection"}, {"from": "TV Shows", "to": "group"}, {"from": "TV Shows", "to": "year"}, {"from": "Movies", "to": "christmas"}, {"from": "Movies", "to": "town"}, {"from": "Sports", "to": "team"}, {"from": "Sports", "to": "player"}, {"from": "Mystery", "to": "mystery"}, {"from": "Mystery", "to": "romance"}, {"from": "Docuseries", "to": "revealing"}, {"from": "Teen", "to": "school"}, {"from": "Teen", "to": "student"}, {"from": "Teen", "to": "high"}, {"from": "student", "to": "Korean"}, {"from": "Korean", "to": "college"}, {"from": "Korean", "to": "korea"}, {"from": "Science", "to": "fact"}, {"from": "Science", "to": "meet"}, {"from": "Science", "to": "fiction"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
