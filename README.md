@@ -18,9 +18,6 @@ Pandas, NumPy
 Matplotlib, Seaborn
 NLTK, scikit-learn, WordCloud
 
-License
-Licensed under the MIT License. See the LICENSE file for details.
-
 Acknowledgements
 Data source: Kaggle Netflix Titles Dataset.
-"# Netflix_Data_Visualization" 
+
